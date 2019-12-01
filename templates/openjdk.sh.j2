@@ -1,0 +1,4 @@
+{# file: openjdk_install/templates/openjdk.sh.j2 #}
+{# becomes: /etc/profile.d/openjdk.sh #}
+export JAVA_HOME={{ java_home_path }}
+export PATH={{ java_home_path }}/bin:$PATH

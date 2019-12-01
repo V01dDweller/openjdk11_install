@@ -1,0 +1,28 @@
+# file: openjdk11_install/tasks/main.yml
+---
+- name: Installing OpenJDK 11
+  yum:
+    name: 'java-11-openjdk'
+    state: installed
+
+- name: Finding path to Java binaries
+  shell: "alternatives --list | grep java | grep bin | cut -f 3 | sed 's/\\/bin\\/java//'"
+  register: jdk_path
+  changed_when: false
+
+- name: Saving to java_home_path
+  set_fact:
+    java_home_path: '{{ jdk_path.stdout }}'
+
+- name: Showing java home path
+  debug:
+    var: java_home_path
+
+- name: Creating /etc/profile.d/openjdk.sh
+  template:
+    src: openjdk.sh.j2
+    dest: /etc/profile.d/openjdk.sh
+    owner: root
+    group: root
+    mode: 0644
+...
